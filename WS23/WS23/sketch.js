@@ -19,7 +19,7 @@ let row6 = ['His', 'grandfather', 'was', 'right', 'all', 'along.'];
 
 // Create lists for synonyms of words in row1
 let row1_item0 = ['A', 'A', 'A', 'A', 'A'];
-let row1_item1 = ['AHHHHHHHHHH', 'junior', 'adolescent', 'juvenile', 'young'];
+let row1_item1 = ['AHHHHHV', 'junior', 'adolescent', 'juvenile', 'young'];
 let row1_item2 = ['Peter', 'Peter', 'Peter', 'Peter', 'Peter'];
 let row1_item3 = ['disregarding', 'neglecting', 'dismissing', 'overlooking', 'disregarding'];
 let row1_item4 = ['his', 'his', 'his', 'his', 'his'];
