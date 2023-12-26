@@ -5,6 +5,9 @@ let selectedWord= -1; //Variable to keep track of the currently selected word in
 let currentImage;
 var fade;
 var fadeAmount = 1;
+var fadeTracker = 0; 
+var fadeParagraph = 255;
+var fadeParagraphTracker = 0;
 
 let selectAllRows = false;
 let synonymIndex = -1;
@@ -116,7 +119,7 @@ function setup() {
   bg3 = loadImage('assets/17.png');
 
   currentImage = bg0;
-  fade = 0;
+  fade = 255;
 }
 
 let wordIndex = 0; // Variable to keep track of the current word being displayed
@@ -142,9 +145,9 @@ function draw() {
     }
   }
 
-  if (fade > 0 || fade < 255) {
+ /*  if (fade > 0 || fade < 255) {
     fade += fadeAmount;
-  }
+  } */
 }
 
 function displayRow(rowArray, rowNum) {
@@ -154,7 +157,7 @@ function displayRow(rowArray, rowNum) {
 
   // Check if "Select All" is active
   if (selectAllRows || (rowNum - 1 === selectedRow && selectedWord === -1)) {
-    fill(255, 0, 0); // Set fill to red for the selected row or all rows
+    fill(255, 0, 0, fadeParagraph); // Set fill to red for the selected row or all rows
   } else {
     fill(255, 255, 255, fade); // Set fill to black for other rows
   }
@@ -230,13 +233,33 @@ function keyPressed() {
       currentImage = bg0;
     }
   }  else if (keyCode === 68) {
-    //fade = 0;
-    //fadeAmount = 1;
     changeSynonyms(1);
   } else if (keyCode === 65) {
-    //fade = 0;
-    //fadeAmount = 0.5;
     changeSynonyms(-1);
+  } else if (keyCode === CONTROL) { //Change the opacity 
+    print(fade+''+fadeTracker);
+      if(fadeTracker == 1 && fade <=255) {
+        fade+=20; 
+      } else if (fadeTracker == 0 && fade >= 0) {
+        fade-=20;
+      } else if (fade <= 0) {
+        print('HELOOOOO');
+        fadeTracker = 1; 
+      } else if (fade >= 255) {
+        fadeTracker = 0; 
+      }
+
+      if(selectAllRows) {
+        if(fadeParagraphTracker == 1 && fadeParagraph <=255) {
+          fadeParagraph+=20; 
+        } else if (fadeParagraphTracker == 0 && fadeParagraph >= 0) {
+          fadeParagraph-=20;
+        } else if (fadeParagraph <= 0) {
+          fadeParagraphTracker = 1; 
+        } else if (fadeParagraph >= 255) {
+          fadeParagraphTracker = 0; 
+        }
+      } 
   }
 }
   
