@@ -1,6 +1,16 @@
-let fonts = ['Fantasy', 'Brush Script MT', 'Courier New', 'Verdana', 'Times New Roman'];
+let fonts = ['Fantasy', 'Brush Script MT', 'Courier New', 'Verdana', 'Times New Roman'];//list of fonts to be changed
 let selectedRow = 0; // Variable to keep track of the currently selected row
 let selectedWord= -1; //Variable to keep track of the currently selected word index in a row
+
+let row_fonts = [
+  ['Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy'],
+  ['Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy'],
+  ['Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy'],
+  ['Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy'],
+  ['Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy'],
+  ['Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy']
+]; //list of fonts to be applied at start
+
 
 let currentImage;
 var fade;
@@ -12,7 +22,7 @@ var fadeParagraphTracker = 0;
 let selectAllRows = false;
 let synonymIndex = -1;
 
-
+//text
 let row1 = ['A', 'young', 'Peter,', 'ignoring', 'his', 'grandfather\'s', 'warning,', 'goes', 'hunting', 'for', 'the', 'hungry', 'wolf', 'that', 'has', 'been', 'prowling', 'in', 'the', 'meadows.'];
 let row2 = ['This', 'with', 'the', 'help', 'of', 'his', 'friends', 'Sasha', 'the', 'Songbird,', 'Sonia', 'the', 'Duck,', 'and', 'Ivan', 'the', 'Cat.'];
 let row3 = ['Through', 'quick', 'thinking,', 'they', 'trick', 'the', 'wolf.'];
@@ -76,11 +86,12 @@ let row4_item0 = ['The', 'The', 'The', 'The', 'The'];
 let row4_item1 = ['creature', 'animal', 'monster', 'beast', 'creature'];
 let row4_item2 = ['is', 'becomes', 'gets', 'turns', 'is'];
 let row4_item3 = ['captured', 'caught', 'seized', 'snared', 'captured'];
-let row4_item4 = ['and', 'and', 'and', 'and', 'and'];
-let row4_item5 = ['secured', 'fastened', 'fixed', 'attached', 'secured'];
-let row4_item6 = ['aloft', 'up', 'high', 'above', 'aloft'];
-let row4_item7 = ['Peter', 'Peter', 'Peter', 'Peter', 'Peter'];
-let row4_item8 = ['celebrates', 'revels', 'enjoys', 'delights', 'celebrates'];
+let row4_item4 = ['down', 'down', ' ', 'down', 'down'];
+let row4_item5 = ['and', 'and', 'and', 'and', 'and'];
+let row4_item6 = ['secured', 'fastened', 'fixed', 'attached', 'secured'];
+let row4_item7 = ['aloft', 'up', 'high', 'above', 'aloft'];
+let row4_item8 = ['Peter', 'Peter', 'Peter', 'Peter', 'Peter'];
+let row4_item9 = ['celebrates', 'revels', 'enjoys', 'delights', 'celebrates'];
 
 // Create lists for synonyms of words in row5
 let row5_item0 = ['Yet', 'However', 'Nevertheless', 'Nonetheless', 'Yet'];
@@ -107,6 +118,9 @@ let row6_item3 = ['correct', 'right', 'accurate', 'true', 'correct'];
 let row6_item4 = ['all', 'all', 'all', 'all', 'all'];
 let row6_item5 = ['throughout', 'through', 'during', 'in the course of', 'throughout'];
 
+
+
+
 let mySound;
 function preload() {
   soundFormats('mp3', 'ogg');
@@ -120,17 +134,16 @@ function setup() {
   textFont('Fantasy', 18);
   strokeWeight(2);
 
-  //start sound 
+  //bg0 = loadImage('assets/14.png');
+  //bg1 = loadImage('assets/15.png');
+  //bg2 = loadImage('assets/16.png');
+  //bg3 = loadImage('assets/17.png');
+ //currentImage = bg0;
+
   mySound.play();
 
   video.loop();
   video.hide();
-
-/*   bg0 = loadImage('assets/14.png');
-  bg1 = loadImage('assets/15.png');
-  bg2 = loadImage('assets/16.png');
-  bg3 = loadImage('assets/17.png');
-  currentImage = bg0;*/
 
   fade = 255;
 }
@@ -140,7 +153,7 @@ let delay = 5; // Time delay between words in milliseconds
 
 function draw() {
   background(0);
-  image(video, 0, 0, width, height);
+  image(video,0,0,width,height);
 
   if (fade > 0) {
     fill(255, 255, 255, fade);
@@ -165,45 +178,68 @@ function draw() {
 }
 
 function displayRow(rowArray, rowNum) {
-  // Display rowArray
   textAlign(LEFT, CENTER);
   let startX = width / 2 - textWidth(rowArray.join(' ')) / 2;
 
   // Check if "Select All" is active
-  if (selectAllRows || (rowNum - 1 === selectedRow && selectedWord === -1)) {
-    fill(255, 0, 0, fadeParagraph); // Set fill to red for the selected row or all rows
+  if (selectAllRows) {
+    fill(255, 0, 0, fadeParagraph); // Set fill to red for all rows
+  } else if (rowNum - 1 === selectedRow && selectedWord === -1) {
+    fill(255, 0, 0, fadeParagraph); // Set fill to red for the selected row
   } else {
     fill(255, 255, 255, fade); // Set fill to black for other rows
   }
 
-  // Display words up to the current word index
-  for (let i = 0; i <= wordIndex && i < rowArray.length; i++) {
-    if (i === selectedWord && rowNum - 1 === selectedRow) {
-      fill(255, 0, 0); // Set fill to red for the selected word
+  // Display entire row in red when selected
+  if (selectAllRows || (rowNum - 1 === selectedRow && selectedWord === -1)) {
+    for (let i = 0; i < rowArray.length; i++) {
+      let fontIndex = min(i, row_fonts[rowNum - 1].length - 1); // Ensure fontIndex is within bounds
+      let currentFont = row_fonts[rowNum - 1][fontIndex];
+
+      fill(255, 0, 0, fadeParagraph); // Set fill to red for the selected row
+      textFont(currentFont, 18);
+      let wordWidth = textWidth(rowArray[i] + ' ');
+      text(rowArray[i], startX, (height / 7) * rowNum);
+
+      startX += wordWidth;
     }
+  } else {
+    // Display words up to the current word index
+    for (let i = 0; i <= wordIndex && i < rowArray.length; i++) {
+      let fontIndex = min(i, row_fonts[rowNum - 1].length - 1); // Ensure fontIndex is within bounds
+      let currentFont = row_fonts[rowNum - 1][fontIndex];
 
-    let wordWidth = textWidth(rowArray[i] + ' ');
-    text(rowArray[i], startX, (height / 7) * rowNum);
+      // Set fill before drawing each word
+      if (i === selectedWord && rowNum - 1 === selectedRow) {
+        fill(255, 0, 0, fadeParagraph); // Set fill to red for the selected word
+      } else {
+        fill(255, 255, 255, fade); // Reset fill to black for other words
+      }
 
-    if (i === selectedWord) {
-      fill(255, 255, 255, fade); // Reset fill to black for the next words
+      textFont(currentFont, 18);
+      let wordWidth = textWidth(rowArray[i] + ' ');
+      text(rowArray[i], startX, (height / 7) * rowNum);
+
+      if (i === selectedWord) {
+        fill(255, 255, 255, fade); // Reset fill to black for the next words
+      }
+
+      startX += wordWidth;
     }
-
-    startX += wordWidth;
   }
 }
 
 function keyPressed() {
   if (keyCode === 32) { // Check if the pressed key is the spacebar
-    let randomFont = random(fonts);
-    textFont(randomFont, 18);
-    fade = 0;
-    fadeAmount = 1; 
+    //let randomFont = random(fonts);
+    //textFont(randomFont, 18);
+    //fade = 0;
+    //fadeAmount = 1; 
   } else if (keyCode === ENTER) {
     // When a key is pressed, reset the fade to 0
-    fade = 0;
-    fadeAmount = 1; // Reset fade direction to increasing// Check if the pressed key is the Enter key
-    replaceWords();
+    //fade = 0;
+    //fadeAmount = 1; // Reset fade direction to increasing// Check if the pressed key is the Enter key
+    //replaceWords();
   }  else if (keyCode === UP_ARROW) {
     if (selectAllRows) {
       // If coming from "Select All" mode, move to row 6
@@ -228,16 +264,22 @@ function keyPressed() {
       selectAllRows = false;
     }
     selectedWord = -1; // Reset selectedWord when changing rows
-  } else if (keyCode === LEFT_ARROW) {
+  }  else if (keyCode === LEFT_ARROW) {
     if (selectedWord > 0) {
       selectedWord--;
+    } else {
+      // If at the beginning of the row, reset to selecting the entire row
+      selectedWord = -1;
     }
   } else if (keyCode === RIGHT_ARROW) {
     if (selectedWord < row1.length - 1) {
       selectedWord++;
+    } else {
+      // If at the end of the row, reset to selecting the entire row
+      selectedWord = -1;
     }
   }  else if (keyCode === 83) { 
-    /* if(currentImage == bg0){
+    if(currentImage == bg0){
       currentImage = bg1;
     } else if (currentImage == bg1) {
       currentImage = bg2;
@@ -245,12 +287,16 @@ function keyPressed() {
       currentImage = bg3;
     } else if (currentImage == bg3) {
       currentImage = bg0;
-    } */
+    }
   }  else if (keyCode === 68) {
     changeSynonyms(1);
   } else if (keyCode === 65) {
     changeSynonyms(-1);
-  } else if (keyCode === CONTROL) { //Change the opacity 
+  }  else if (keyCode === 81) { // 'q' key
+    changeFonts(-1);
+  } else if (keyCode === 69) { // 'e' key
+    changeFonts(1);
+  } else if (keyCode === 87) { //Change the opacity switched to 'w'
     print(fade+''+fadeTracker);
       if(fadeTracker == 1 && fade <=255) {
         fade+=20; 
@@ -277,47 +323,6 @@ function keyPressed() {
   }
 }
   
- 
-
-
-function replaceWords() {
-  // Replace each item in row1-row6 with a random item from the corresponding items list
-  for (let i = 0; i < row1.length; i++) {
-    if (i > 0 && i < row1.length - 1) {
-      row1[i] = random(eval(`row1_item${i}`));
-    }
-  }
-
-  for (let i = 0; i < row2.length; i++) {
-    if (i > 0 && i < row2.length - 1) {
-      row2[i] = random(eval(`row2_item${i}`));
-    }
-  }
-
-  for (let i = 0; i < row3.length; i++) {
-    if (i > 0 && i < row3.length - 1) {
-      row3[i] = random(eval(`row3_item${i}`));
-    }
-  }
-
-  for (let i = 0; i < row4.length; i++) {
-    if (i > 0 && i < row4.length - 1) {
-      row4[i] = random(eval(`row4_item${i}`));
-    }
-  }
-
-  for (let i = 0; i < row5.length; i++) {
-    if (i > 0 && i < row5.length - 1) {
-      row5[i] = random(eval(`row5_item${i}`));
-    }
-  }
-
-  for (let i = 0; i < row6.length; i++) {
-    if (i > 0 && i < row6.length - 1) {
-      row6[i] = random(eval(`row6_item${i}`));
-    }
-  }
-}
 
 function changeSynonyms(direction) {
   // Update synonym index based on the direction
@@ -326,68 +331,56 @@ function changeSynonyms(direction) {
   if (selectAllRows) {
     // Change synonyms for all rows
     for (let row = 0; row < 6; row++) {
-      let selectedRowArray;
-      switch (row) {
-        case 0:
-          selectedRowArray = row1;
-          break;
-        case 1:
-          selectedRowArray = row2;
-          break;
-        case 2:
-          selectedRowArray = row3;
-          break;
-        case 3:
-          selectedRowArray = row4;
-          break;
-        case 4:
-          selectedRowArray = row5;
-          break;
-        case 5:
-          selectedRowArray = row6;
-          break;
-      }
-
+      let selectedRowArray = eval(`row${row + 1}`);
       for (let i = 0; i < selectedRowArray.length; i++) {
-        if (i > 0 && i < selectedRowArray.length - 1) {
-          selectedRowArray[i] = eval(`row${row + 1}_item${i}`)[synonymIndex];
-        }
+        // Allow changes for all words in the row
+        selectedRowArray[i] = eval(`row${row + 1}_item${i}`)[synonymIndex];
       }
     }
   } else {
     // Change synonyms for the selected row or word
-    let selectedRowArray;
-    switch (selectedRow) {
-      case 0:
-        selectedRowArray = row1;
-        break;
-      case 1:
-        selectedRowArray = row2;
-        break;
-      case 2:
-        selectedRowArray = row3;
-        break;
-      case 3:
-        selectedRowArray = row4;
-        break;
-      case 4:
-        selectedRowArray = row5;
-        break;
-      case 5:
-        selectedRowArray = row6;
-        break;
-    }
-
+    let selectedRowArray = eval(`row${selectedRow + 1}`);
     if (selectedWord === -1) {
+      // Change all words in the row
       for (let i = 0; i < selectedRowArray.length; i++) {
-        if (i > 0 && i < selectedRowArray.length - 1) {
-          selectedRowArray[i] = eval(`row${selectedRow + 1}_item${i}`)[synonymIndex];
-        }
+        selectedRowArray[i] = eval(`row${selectedRow + 1}_item${i}`)[synonymIndex];
       }
-    } else {
-      if (selectedWord > 0 && selectedWord < selectedRowArray.length - 1) {
-        selectedRowArray[selectedWord] = eval(`row${selectedRow + 1}_item${selectedWord}`)[synonymIndex];
-      }
+    } else if (selectedWord >= 0 && selectedWord < selectedRowArray.length) {
+      // Allow changes for the selected word
+      selectedRowArray[selectedWord] = eval(`row${selectedRow + 1}_item${selectedWord}`)[synonymIndex];
     }
   }
 }
+
+function changeFonts(direction) {
+  // Update font index based on the direction
+  let fontIndex = (direction === 1) ? 1 : -1; // 1 for 'e' (forward), -1 for 'q' (backward)
+
+  if (selectAllRows) {
+    // Change fonts for all rows
+    for (let row = 0; row < 6; row++) {
+      for (let i = 0; i < row_fonts[row].length; i++) {
+        // Allow changes for all words in the row
+        let fontToApply = fonts[(fonts.indexOf(row_fonts[row][i]) + fontIndex + fonts.length) % fonts.length];
+        row_fonts[row][i] = fontToApply;
+      }
+    }
+  } else {
+    // Change fonts for the selected row or word
+    let selectedRowArray = eval(`row${selectedRow + 1}`);
+    if (selectedWord === -1) {
+      // Change all words in the row
+      for (let i = 0; i < selectedRowArray.length; i++) {
+        let fontToApply = fonts[(fonts.indexOf(row_fonts[selectedRow][i]) + fontIndex + fonts.length) % fonts.length];
+        row_fonts[selectedRow][i] = fontToApply;
+      }
+    } else if (selectedWord >= 0 && selectedWord < selectedRowArray.length) {
+      // Allow changes for the selected word
+      let fontToApply = fonts[(fonts.indexOf(row_fonts[selectedRow][selectedWord]) + fontIndex + fonts.length) % fonts.length];
+      row_fonts[selectedRow][selectedWord] = fontToApply;
+    }
+  }
+}
+
+
+
