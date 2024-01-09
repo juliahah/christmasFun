@@ -111,6 +111,7 @@ let mySound;
 function preload() {
   soundFormats('mp3', 'ogg');
   mySound = loadSound('assets/ambient');
+  video = createVideo('assets/noise.mp4');
 }
 
 function setup() {
@@ -122,12 +123,15 @@ function setup() {
   //start sound 
   mySound.play();
 
-  bg0 = loadImage('assets/14.png');
+  video.loop();
+  video.hide();
+
+/*   bg0 = loadImage('assets/14.png');
   bg1 = loadImage('assets/15.png');
   bg2 = loadImage('assets/16.png');
   bg3 = loadImage('assets/17.png');
+  currentImage = bg0;*/
 
-  currentImage = bg0;
   fade = 255;
 }
 
@@ -135,7 +139,8 @@ let wordIndex = 0; // Variable to keep track of the current word being displayed
 let delay = 5; // Time delay between words in milliseconds
 
 function draw() {
-  background(currentImage);
+  background(0);
+  image(video, 0, 0, width, height);
 
   if (fade > 0) {
     fill(255, 255, 255, fade);
@@ -232,7 +237,7 @@ function keyPressed() {
       selectedWord++;
     }
   }  else if (keyCode === 83) { 
-    if(currentImage == bg0){
+    /* if(currentImage == bg0){
       currentImage = bg1;
     } else if (currentImage == bg1) {
       currentImage = bg2;
@@ -240,7 +245,7 @@ function keyPressed() {
       currentImage = bg3;
     } else if (currentImage == bg3) {
       currentImage = bg0;
-    }
+    } */
   }  else if (keyCode === 68) {
     changeSynonyms(1);
   } else if (keyCode === 65) {
