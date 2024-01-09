@@ -125,13 +125,13 @@ let mySound;
 function preload() {
   soundFormats('mp3', 'ogg');
   mySound = loadSound('assets/ambient');
-  video = createVideo('assets/noise.mp4');
+  video = createVideo('assets/noise1.mp4');
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   textAlign(CENTER, CENTER);
-  textFont('Fantasy', 18);
+  textFont('Roboto', 25);
   strokeWeight(2);
 
   //bg0 = loadImage('assets/14.png');
