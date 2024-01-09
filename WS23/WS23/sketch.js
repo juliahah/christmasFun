@@ -107,11 +107,20 @@ let row6_item3 = ['correct', 'right', 'accurate', 'true', 'correct'];
 let row6_item4 = ['all', 'all', 'all', 'all', 'all'];
 let row6_item5 = ['throughout', 'through', 'during', 'in the course of', 'throughout'];
 
+let mySound;
+function preload() {
+  soundFormats('mp3', 'ogg');
+  mySound = loadSound('assets/ambient');
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   textAlign(CENTER, CENTER);
   textFont('Fantasy', 18);
   strokeWeight(2);
+
+  //start sound 
+  mySound.play();
 
   bg0 = loadImage('assets/14.png');
   bg1 = loadImage('assets/15.png');
