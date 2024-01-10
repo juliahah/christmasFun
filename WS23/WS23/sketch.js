@@ -3,12 +3,12 @@ let selectedRow = 0; // Variable to keep track of the currently selected row
 let selectedWord= -1; //Variable to keep track of the currently selected word index in a row
 
 let row_fonts = [
-  ['Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy'],
-  ['Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy'],
-  ['Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy'],
-  ['Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy'],
-  ['Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy'],
-  ['Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy', 'Fantasy']
+  ['Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace'],
+  ['Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace'],
+  ['Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace'],
+  ['Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace'],
+  ['Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace'],
+  ['Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace', 'Monospace']
 ]; //list of fonts to be applied at start
 
 
@@ -179,7 +179,21 @@ function draw() {
 
 function displayRow(rowArray, rowNum) {
   textAlign(LEFT, CENTER);
-  let startX = width / 2 - textWidth(rowArray.join(' ')) / 2;
+
+  // Set the desired width for each row (80% of the screen width)
+  let desiredRowWidth = 0.8 * width;
+  let totalWordWidth = 0;
+
+  // Calculate the total width of the words in the row
+  for (let i = 0; i < rowArray.length; i++) {
+    totalWordWidth += textWidth(rowArray[i] + ' ');
+  }
+
+  // Calculate the spacing between words
+  let spacing = (desiredRowWidth - totalWordWidth) / (rowArray.length - 1);
+
+  // Starting X position to center the row
+  let startX = (width - totalWordWidth - spacing * (rowArray.length - 1)) / 2;
 
   // Check if "Select All" is active
   if (selectAllRows) {
@@ -197,11 +211,10 @@ function displayRow(rowArray, rowNum) {
       let currentFont = row_fonts[rowNum - 1][fontIndex];
 
       fill(255, 0, 0, fadeParagraph); // Set fill to red for the selected row
-      textFont(currentFont, 18);
-      let wordWidth = textWidth(rowArray[i] + ' ');
+      textFont(currentFont, 16);
       text(rowArray[i], startX, (height / 7) * rowNum);
 
-      startX += wordWidth;
+      startX += textWidth(rowArray[i] + ' ') + spacing; // Move the starting X position based on the width and spacing of each word
     }
   } else {
     // Display words up to the current word index
@@ -216,18 +229,18 @@ function displayRow(rowArray, rowNum) {
         fill(255, 255, 255, fade); // Reset fill to black for other words
       }
 
-      textFont(currentFont, 18);
-      let wordWidth = textWidth(rowArray[i] + ' ');
+      textFont(currentFont, 16);
       text(rowArray[i], startX, (height / 7) * rowNum);
 
       if (i === selectedWord) {
         fill(255, 255, 255, fade); // Reset fill to black for the next words
       }
 
-      startX += wordWidth;
+      startX += textWidth(rowArray[i] + ' ') + spacing; // Move the starting X position based on the width and spacing of each word
     }
   }
 }
+
 
 function keyPressed() {
   if (keyCode === 32) { // Check if the pressed key is the spacebar
