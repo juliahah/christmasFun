@@ -125,7 +125,7 @@ let mySound;
 function preload() {
   soundFormats('mp3', 'ogg');
   mySound = loadSound('assets/ambient');
-  video = createVideo('assets/noise1.mp4');
+  video = createVideo('assets/back.mp4');
 }
 
 function setup() {
